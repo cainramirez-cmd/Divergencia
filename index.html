@@ -166,6 +166,7 @@ button:focus-visible, .likert-btn:focus-visible{ outline:2px solid var(--leaf); 
 .credits .badge{ flex:none; }
 .credits .meta{ font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--ink-soft); line-height:1.7; }
 .credits .meta b{ color:var(--ink); font-family:'Spectral', serif; font-size:14px; font-weight:600; display:block; }
+.github-link{margin-left:auto;flex:none;display:grid;place-items:center;width:40px;height:40px;color:var(--ink);border:1px solid rgba(32,48,31,.18);background:rgba(255,255,255,.28);transition:color .15s ease,background .15s ease,transform .15s ease}.github-link:hover{color:var(--leaf-dark);background:rgba(255,255,255,.55);transform:translateY(-1px)}
 
 .footnote{ font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--ink-soft); opacity:.75; margin-top:16px; }
 </style>
@@ -175,7 +176,7 @@ button:focus-visible, .likert-btn:focus-visible{ outline:2px solid var(--leaf); 
 
   <p class="eyebrow">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2C9 8 3 9 3 15c0 5 4 8 9 8s9-3 9-8c0-6-6-7-9-13Z" stroke="#9C7A3C" stroke-width="1.6"/></svg>
-    Instrumento de campo · Nº 01
+    
   </p>
   <h1>Divergencia</h1>
   <p class="subtitle">Un compás del pensamiento evolutivo</p>
@@ -189,7 +190,7 @@ button:focus-visible, .likert-btn:focus-visible{ outline:2px solid var(--leaf); 
         <span>~4 minutos</span>
         <span>escala de 5 puntos</span>
       </div>
-      <button class="btn-primary" id="btn-start">Comenzar la expedición →</button>
+      <button class="btn-primary" id="btn-start">Comenzar →</button>
     </div>
 
     <div id="screen-quiz" class="hidden">
@@ -210,7 +211,7 @@ button:focus-visible, .likert-btn:focus-visible{ outline:2px solid var(--leaf); 
     </div>
 
     <div id="screen-results" class="hidden">
-      <p class="eyebrow" style="margin-bottom:6px">Resultado de la expedición</p>
+      <p class="eyebrow" style="margin-bottom:6px">Resultado</p>
       <p class="quadrant-name" id="quadrant-name"></p>
       <p class="result-text" id="quadrant-text"></p>
 
@@ -227,19 +228,10 @@ button:focus-visible, .likert-btn:focus-visible{ outline:2px solid var(--leaf); 
 
   </div>
 
-  <p class="footnote">Esto es un ejercicio de reflexión, no un test científico validado ni un diagnóstico.</p>
+  <p class="footnote"></p>
 
   <div class="credits">
-    <div class="badge">
-      <svg width="46" height="46" viewBox="0 0 46 46" fill="none">
-        <circle cx="23" cy="23" r="21" fill="#EFEBDC" stroke="#9C7A3C" stroke-width="1.4"/>
-        <circle cx="23" cy="23" r="17" fill="none" stroke="#3C6E44" stroke-width="1"/>
-        <path d="M16 21v-3a7 7 0 0 1 12.5-4.3" stroke="#3C6E44" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-        <rect x="14" y="21" width="18" height="12" rx="1.5" fill="#3C6E44"/>
-        <circle cx="23" cy="26" r="1.8" fill="#EFEBDC"/>
-        <rect x="22.2" y="26.5" width="1.6" height="3.5" fill="#EFEBDC"/>
-      </svg>
-    </div>
+    <a class="github-link" href="https://github.com/cainramirez-cmd" target="_blank" rel="noopener noreferrer" aria-label="GitHub de Caín N. Ramirez" title="GitHub"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a12 12 0 0 0-3.79 23.39c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.74.08-.74 1.2.08 1.84 1.23 1.84 1.23 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.34-5.47-5.95 0-1.31.47-2.38 1.23-3.22-.12-.3-.53-1.52.12-3.17 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.29-1.23 3.29-1.23.66 1.65.25 2.87.12 3.17.77.84 1.23 1.91 1.23 3.22 0 4.62-2.81 5.64-5.49 5.94.43.37.81 1.1.81 2.22v3.29c0 .32.22.69.83.57A12 12 0 0 0 12 .5Z"/></svg></a>
     <div class="meta">
       <b>Caín N. Ramirez</b>
       Desarrollo &amp; diseño · Licencia MIT — código abierto
@@ -352,26 +344,11 @@ function computeScores(){
 }
 
 const QUADRANTS = {
-  Q1: {
-    name: "Darwinismo génico",
-    text: "Para vos, la selección natural es la fuerza que mejor explica el mundo vivo, y el gen es la unidad que realmente «compite» generación tras generación. Los organismos, incluso los grupos, son vehículos temporales. Es la tradición que popularizó la metáfora del gen egoísta: rigurosa, parsimoniosa y poco cómoda con las excepciones.",
-  },
-  Q2: {
-    name: "Darwinismo grupal",
-    text: "Creés que casi todo tiene una función adaptativa, pero no te conformás con mirar solo el gen: para vos la selección también moldea grupos, sociedades y especies enteras. Es la línea que sostiene que la cooperación y hasta ciertas instituciones sociales pudieron evolucionar porque benefician al colectivo, no solo al individuo.",
-  },
-  Q3: {
-    name: "Neutralismo molecular",
-    text: "Desconfiás del relato de que «todo tiene una función». A nivel genético, para vos manda más el azar —mutación, deriva, historia— que la selección. Pero seguís mirando al gen como la unidad relevante: no hace falta apelar al grupo para explicar la evolución, solo hace falta menos optimismo adaptativo.",
-  },
-  Q4: {
-    name: "Evo-Devo pluralista",
-    text: "Sos escéptico del adaptacionismo y pensás en múltiples niveles a la vez. Para vos el desarrollo embrionario, la contingencia histórica y la selección multinivel importan tanto como la selección clásica. Es la tradición que insiste en que no todo lo que existe fue «diseñado» por la selección para su función actual.",
-  },
-  C: {
-    name: "Posición equilibrada",
-    text: "Tu perfil no se inclina con fuerza hacia ningún polo: combinás intuiciones adaptacionistas y pluralistas, génicas y grupales, según el caso. Es una posición razonable — buena parte de la biología evolutiva contemporánea también vive en esa zona gris.",
-  }
+Q1:{name:"Darwinismo génico",short:"Adaptacionismo alto · selección génica / individual",text:"Interpretás la evolución principalmente como selección que favorece variantes con efectos sobre su transmisión. Tendés a buscar funciones adaptativas y a explicar la cooperación mediante beneficios reproductivos, parentesco o estrategias individuales.",references:["Richard Dawkins","George C. Williams"],detail:"Referentes: Richard Dawkins y George C. Williams."},
+Q2:{name:"Darwinismo grupal",short:"Adaptacionismo alto · selección grupal / multinivel",text:"Aceptás una visión fuertemente adaptacionista, pero considerás que la competencia y la cooperación pueden analizarse también entre grupos. Un grupo más cooperativo puede obtener ventajas frente a otros si esas diferencias tienen consecuencias evolutivas.",references:["Elliott Sober","David Sloan Wilson"],detail:"Referentes: Elliott Sober y David Sloan Wilson."},
+Q3:{name:"Neutralismo molecular",short:"Adaptacionismo bajo · selección génica / individual",text:"Desconfiás de atribuir una función adaptativa a casi todo rasgo. A nivel molecular, concedés un papel enorme a la deriva y a la historia contingente, pero seguís priorizando genes y poblaciones antes que grupos.",references:["Motoo Kimura","Tomoko Ohta"],detail:"Referentes: Motoo Kimura y Tomoko Ohta."},
+Q4:{name:"Evo-Devo pluralista",short:"Adaptacionismo bajo · selección multinivel / pluralista",text:"Sos pluralista: no asumís que todo rasgo es una adaptación y considerás importantes las restricciones del desarrollo, la contingencia, la deriva y distintos niveles de selección.",references:["Stephen Jay Gould","Richard Lewontin"],detail:"Referentes: Stephen Jay Gould y Richard Lewontin."},
+C:{name:"Posición equilibrada",short:"Zona central · pluralismo según el caso",text:"Combinás explicaciones adaptativas y no adaptativas, y podés aceptar selección génica, individual o multinivel dependiendo del problema.",references:["Ernst Mayr","John Endler"],detail:"Referentes: Ernst Mayr y John Endler."}
 };
 
 function getQuadrant(x, y){
@@ -395,9 +372,12 @@ function showResults(){
   document.getElementById('quadrant-text').textContent = q.text;
 
   document.getElementById('readouts').innerHTML = `
-    <div><b>${y >= 0 ? '+' : ''}${y} / ${MAX_SCORE}</b>Adaptacionismo (${y>=0?'alto':'bajo, más pluralista'})</div>
-    <div><b>${x >= 0 ? '+' : ''}${x} / ${MAX_SCORE}</b>Nivel de selección (${x>=0?'génico / individual':'grupal / multinivel'})</div>
+    <div><b>${y >= 0 ? '+' : ''}${y} / ${MAX_SCORE}</b>Adaptacionismo · ${y>=0?'más adaptacionista':'más pluralista'}</div>
+    <div><b>${x >= 0 ? '+' : ''}${x} / ${MAX_SCORE}</b>Nivel de selección · ${x>=0?'génico / individual':'grupal / multinivel'}</div>
+    <div><b>${q.short}</b>Ubicación conceptual</div>
+    <div><b>${q.references.join(' · ')}</b>Referentes próximos</div>
   `;
+  document.getElementById('other-quadrants').innerHTML = `<strong>Referentes de esta posición</strong><br>${q.detail}<br><br><strong>Otros polos</strong> — ` + Object.keys(QUADRANTS).filter(k=>k!==key&&k!=="C").map(k=>QUADRANTS[k].name).join(" · ");
 
   const others = Object.keys(QUADRANTS).filter(k => k !== key && k !== 'C');
   document.getElementById('other-quadrants').innerHTML =
@@ -466,4 +446,3 @@ function tick(cx, cy, r, dir){
 </script>
 </body>
 </html>
-
