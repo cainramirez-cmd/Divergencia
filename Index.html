@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Divergencia — Compás del Pensamiento Evolutivo</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Spectral:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root{
+  --paper:#EFEBDC;
+  --paper-deep:#DFE3C6;
+  --ink:#20301F;
+  --ink-soft:#465341;
+  --leaf:#3C6E44;
+  --leaf-dark:#2C5233;
+  --fern:#6B8F58;
+  --gold:#9C7A3C;
+}
+
+*{box-sizing:border-box;}
+html,body{ margin:0; padding:0; background:var(--paper); color:var(--ink); font-family:'Spectral', serif; -webkit-font-smoothing:antialiased; }
+
+body{
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(60,110,68,0.09), transparent 45%),
+    radial-gradient(circle at 88% 92%, rgba(156,122,60,0.09), transparent 45%),
+    repeating-linear-gradient(0deg, rgba(32,48,31,0.015) 0px, rgba(32,48,31,0.015) 1px, transparent 1px, transparent 3px);
+  min-height:100vh;
+}
+
+.page{ max-width:720px; margin:0 auto; padding:48px 24px 40px; }
+
+.eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--gold); margin:0 0 14px;
+  display:flex; align-items:center; gap:8px;
+}
+.eyebrow svg{ flex:none; }
+
+h1{
+  font-family:'Fraunces', serif;
+  font-weight:700;
+  font-size:clamp(34px, 6vw, 52px);
+  line-height:1.02;
+  margin:0 0 6px;
+  letter-spacing:-0.01em;
+  color:var(--leaf-dark);
+}
+.subtitle{
+  font-family:'Fraunces', serif;
+  font-weight:500;
+  font-style:italic;
+  font-size:clamp(15px,2.4vw,18px);
+  color:var(--ink-soft);
+  margin:0 0 18px;
+}
+
+.lede{ font-size:17px; line-height:1.6; color:var(--ink-soft); max-width:58ch; margin:0 0 30px; }
+
+.card{
+  background:var(--paper-deep);
+  border:1px solid rgba(32,48,31,0.18);
+  border-radius:2px;
+  padding:34px;
+  position:relative;
+}
+.card::before{
+  content:"";
+  position:absolute; inset:6px;
+  border:1px solid rgba(32,48,31,0.14);
+  pointer-events:none;
+}
+
+button{ font-family:'IBM Plex Mono', monospace; cursor:pointer; border:none; background:none; }
+button:focus-visible, .likert-btn:focus-visible{ outline:2px solid var(--leaf); outline-offset:2px; }
+
+.btn-primary{
+  display:inline-flex; align-items:center; gap:10px;
+  background:var(--leaf-dark); color:var(--paper);
+  font-size:13px; letter-spacing:.08em; text-transform:uppercase;
+  padding:14px 26px; border-radius:1px;
+  transition:transform .15s ease, background .15s ease;
+}
+.btn-primary:hover{ background:var(--leaf); transform:translateY(-1px); }
+.btn-primary:disabled{ background:#9aa48f; cursor:not-allowed; transform:none; }
+
+.btn-ghost{
+  font-size:13px; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--ink-soft); padding:14px 10px;
+  border-bottom:1px solid transparent;
+  transition:border-color .15s ease, color .15s ease;
+}
+.btn-ghost:hover{ color:var(--ink); border-color:var(--ink-soft); }
+.btn-ghost:disabled{ opacity:.35; cursor:not-allowed; }
+
+#screen-intro .specimen{
+  display:flex; flex-wrap:wrap; gap:18px; margin:26px 0 30px;
+  font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-soft);
+}
+#screen-intro .specimen span{ border-left:2px solid var(--gold); padding-left:10px; }
+
+.progress-row{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:22px; }
+.progress-track{ height:2px; background:rgba(32,48,31,0.15); border-radius:2px; overflow:hidden; margin-bottom:30px; }
+.progress-fill{ height:100%; background:var(--leaf); transition:width .35s ease; }
+
+.statement{
+  font-family:'Fraunces', serif; font-weight:500;
+  font-size:clamp(20px, 3.4vw, 26px); line-height:1.32;
+  margin:0 0 30px; min-height:96px;
+}
+
+.axis-tag{
+  display:inline-block; font-family:'IBM Plex Mono', monospace; font-size:10px;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--fern);
+  border:1px solid var(--fern); padding:3px 8px; border-radius:20px; margin-bottom:16px;
+}
+
+.likert{ display:flex; flex-direction:column; gap:8px; margin-bottom:30px; }
+.likert-btn{
+  text-align:left; font-family:'Spectral', serif; font-size:15px; color:var(--ink);
+  padding:13px 16px; border:1px solid rgba(32,48,31,0.25); border-radius:1px;
+  background:rgba(255,255,255,0.28);
+  transition:border-color .15s ease, background .15s ease;
+  display:flex; align-items:center; gap:12px;
+}
+.likert-btn .dot{ width:9px;height:9px;border-radius:50%; border:1.5px solid var(--ink-soft); flex:none; }
+.likert-btn:hover{ border-color:var(--ink); background:rgba(255,255,255,0.55); }
+.likert-btn.selected{ border-color:var(--leaf); background:rgba(60,110,68,0.12); }
+.likert-btn.selected .dot{ background:var(--leaf); border-color:var(--leaf); }
+
+.nav-row{ display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(32,48,31,0.15); padding-top:20px; }
+
+#screen-results .quadrant-name{
+  font-family:'Fraunces', serif; font-weight:700;
+  font-size:clamp(24px,4vw,32px); margin:6px 0 14px; color:var(--leaf-dark);
+}
+.result-text{ font-size:16px; line-height:1.65; color:var(--ink-soft); max-width:58ch; margin:0 0 26px; }
+.compass-wrap{ display:flex; justify-content:center; margin:8px 0 22px; }
+
+.readouts{
+  display:grid; grid-template-columns:1fr 1fr; gap:14px;
+  font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-soft); margin-bottom:28px;
+}
+.readouts div{ border-left:2px solid var(--gold); padding-left:10px; }
+.readouts b{ display:block; color:var(--ink); font-size:14px; margin-bottom:2px;}
+
+.other-quadrants{
+  font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-soft); line-height:1.9;
+  border-top:1px solid rgba(32,48,31,0.15); padding-top:18px; margin-bottom:8px;
+}
+
+.hidden{ display:none !important; }
+
+/* --- Credits / footer --- */
+.credits{
+  margin-top:30px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:16px 18px;
+  border:1px solid rgba(32,48,31,0.16);
+  background:rgba(255,255,255,0.25);
+}
+.credits .badge{ flex:none; }
+.credits .meta{ font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--ink-soft); line-height:1.7; }
+.credits .meta b{ color:var(--ink); font-family:'Spectral', serif; font-size:14px; font-weight:600; display:block; }
+
+.footnote{ font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--ink-soft); opacity:.75; margin-top:16px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <p class="eyebrow">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2C9 8 3 9 3 15c0 5 4 8 9 8s9-3 9-8c0-6-6-7-9-13Z" stroke="#9C7A3C" stroke-width="1.6"/></svg>
+    Instrumento de campo · Nº 01
+  </p>
+  <h1>Divergencia</h1>
+  <p class="subtitle">Un compás del pensamiento evolutivo</p>
+  <p class="lede">Dieciséis afirmaciones sobre selección natural, genes, grupos y azar. Como en la naturaleza, tus respuestas también pueden divergir: te van a ubicar en un mapa de dos ejes, según qué tan adaptacionista sos y en qué nivel creés que actúa la selección.</p>
+
+  <div class="card">
+
+    <div id="screen-intro">
+      <div class="specimen">
+        <span>16 afirmaciones</span>
+        <span>~4 minutos</span>
+        <span>escala de 5 puntos</span>
+      </div>
+      <button class="btn-primary" id="btn-start">Comenzar la expedición →</button>
+    </div>
+
+    <div id="screen-quiz" class="hidden">
+      <div class="progress-row">
+        <span class="eyebrow" id="progress-label" style="margin:0">Afirmación 01 / 16</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+      <div id="axis-tag" class="axis-tag">Eje adaptación</div>
+      <p class="statement" id="statement-text"></p>
+
+      <div class="likert" id="likert-options"></div>
+
+      <div class="nav-row">
+        <button class="btn-ghost" id="btn-back">← Anterior</button>
+        <button class="btn-primary" id="btn-next" disabled>Siguiente →</button>
+      </div>
+    </div>
+
+    <div id="screen-results" class="hidden">
+      <p class="eyebrow" style="margin-bottom:6px">Resultado de la expedición</p>
+      <p class="quadrant-name" id="quadrant-name"></p>
+      <p class="result-text" id="quadrant-text"></p>
+
+      <div class="compass-wrap">
+        <svg id="compass-svg" viewBox="0 0 560 560" width="100%" style="max-width:460px" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+
+      <div class="readouts" id="readouts"></div>
+
+      <div class="other-quadrants" id="other-quadrants"></div>
+
+      <button class="btn-primary" id="btn-restart">↺ Repetir la expedición</button>
+    </div>
+
+  </div>
+
+  <p class="footnote">Esto es un ejercicio de reflexión, no un test científico validado ni un diagnóstico.</p>
+
+  <div class="credits">
+    <div class="badge">
+      <svg width="46" height="46" viewBox="0 0 46 46" fill="none">
+        <circle cx="23" cy="23" r="21" fill="#EFEBDC" stroke="#9C7A3C" stroke-width="1.4"/>
+        <circle cx="23" cy="23" r="17" fill="none" stroke="#3C6E44" stroke-width="1"/>
+        <path d="M16 21v-3a7 7 0 0 1 12.5-4.3" stroke="#3C6E44" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+        <rect x="14" y="21" width="18" height="12" rx="1.5" fill="#3C6E44"/>
+        <circle cx="23" cy="26" r="1.8" fill="#EFEBDC"/>
+        <rect x="22.2" y="26.5" width="1.6" height="3.5" fill="#EFEBDC"/>
+      </svg>
+    </div>
+    <div class="meta">
+      <b>Caín N. Ramirez</b>
+      Desarrollo &amp; diseño · Licencia MIT — código abierto
+    </div>
+  </div>
+
+</div>
+
+<script>
+const QUESTIONS = [
+  { axis:'Y', sign:1,  text:"Casi todo rasgo que observamos en un organismo existe porque en algún momento fue favorecido por la selección natural." },
+  { axis:'X', sign:1,  text:"El gen, no el organismo ni el grupo, es la verdadera unidad sobre la que opera la selección natural." },
+  { axis:'Y', sign:-1, text:"Muchos rasgos son subproductos —«spandrels»— de otros procesos, y no cumplen ninguna función adaptativa en sí mismos." },
+  { axis:'X', sign:-1, text:"La cooperación y el altruismo entre individuos pueden evolucionar gracias a la selección de grupo." },
+  { axis:'Y', sign:-1, text:"La deriva genética —el puro azar— puede pesar tanto como la selección para explicar cómo cambian las poblaciones." },
+  { axis:'X', sign:1,  text:"Un organismo es, en el fondo, un «vehículo» que los genes usan para replicarse." },
+  { axis:'Y', sign:1,  text:"Si un rasgo persiste generación tras generación, lo más razonable es asumir que cumple una función adaptativa." },
+  { axis:'X', sign:-1, text:"La selección natural puede actuar a la vez en varios niveles: genes, individuos, grupos e incluso especies." },
+  { axis:'Y', sign:-1, text:"Las restricciones del desarrollo embrionario limitan qué formas puede «probar» la selección natural, más allá de lo óptimo." },
+  { axis:'X', sign:1,  text:"Explicar el comportamiento social de una especie solo tiene sentido mirando el beneficio reproductivo de cada individuo." },
+  { axis:'Y', sign:1,  text:"La evolución tiende, con el tiempo, a optimizar el diseño de los organismos, casi como lo haría un ingeniero." },
+  { axis:'X', sign:-1, text:"El altruismo genuino —a costa del propio individuo— es difícil de explicar sin apelar a algún beneficio para el grupo." },
+  { axis:'Y', sign:1,  text:"Cuando dos especies no emparentadas evolucionan estructuras muy parecidas (como el ojo del pulpo y el de los vertebrados), es porque ambas resolvieron el mismo problema de la mejor manera posible." },
+  { axis:'Y', sign:-1, text:"Rasgos que hoy nos parecen perfectamente ajustados pudieron originarse por causas que no tenían nada que ver con su función actual." },
+  { axis:'X', sign:1,  text:"Un rasgo que perjudica a un individuo pero beneficia a sus parientes puede igual evolucionar, porque lo que importa es la copia de los genes, no el organismo que los porta." },
+  { axis:'X', sign:-1, text:"Cuando un grupo más cooperativo desplaza a otro menos cooperativo, eso también es selección natural, aunque actúe entre grupos y no entre individuos." },
+];
+
+const LIKERT = [
+  { v:-2, label:"Muy en desacuerdo" },
+  { v:-1, label:"En desacuerdo" },
+  { v:0,  label:"Neutral" },
+  { v:1,  label:"De acuerdo" },
+  { v:2,  label:"Muy de acuerdo" },
+];
+
+const AXIS_LABEL = { X:"Eje · Nivel de selección", Y:"Eje · Adaptacionismo" };
+const MAX_SCORE = QUESTIONS.filter(q=>q.axis==='X').length * 2; // per axis
+
+let current = 0;
+let answers = new Array(QUESTIONS.length).fill(null);
+
+const screenIntro = document.getElementById('screen-intro');
+const screenQuiz = document.getElementById('screen-quiz');
+const screenResults = document.getElementById('screen-results');
+
+document.getElementById('btn-start').addEventListener('click', () => {
+  screenIntro.classList.add('hidden');
+  screenQuiz.classList.remove('hidden');
+  renderQuestion();
+});
+
+document.getElementById('btn-next').addEventListener('click', () => {
+  if (current < QUESTIONS.length - 1) {
+    current++;
+    renderQuestion();
+  } else {
+    showResults();
+  }
+});
+
+document.getElementById('btn-back').addEventListener('click', () => {
+  if (current > 0) {
+    current--;
+    renderQuestion();
+  }
+});
+
+document.getElementById('btn-restart').addEventListener('click', () => {
+  current = 0;
+  answers = new Array(QUESTIONS.length).fill(null);
+  screenResults.classList.add('hidden');
+  screenQuiz.classList.remove('hidden');
+  renderQuestion();
+});
+
+function renderQuestion(){
+  const q = QUESTIONS[current];
+  document.getElementById('progress-label').textContent = `Afirmación ${String(current+1).padStart(2,'0')} / ${QUESTIONS.length}`;
+  document.getElementById('progress-fill').style.width = `${(current/QUESTIONS.length)*100}%`;
+  document.getElementById('axis-tag').textContent = AXIS_LABEL[q.axis];
+  document.getElementById('statement-text').textContent = q.text;
+
+  const wrap = document.getElementById('likert-options');
+  wrap.innerHTML = '';
+  LIKERT.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'likert-btn' + (answers[current] === opt.v ? ' selected' : '');
+    btn.innerHTML = `<span class="dot"></span>${opt.label}`;
+    btn.addEventListener('click', () => {
+      answers[current] = opt.v;
+      renderQuestion();
+    });
+    wrap.appendChild(btn);
+  });
+
+  document.getElementById('btn-back').disabled = current === 0;
+  const nextBtn = document.getElementById('btn-next');
+  nextBtn.disabled = answers[current] === null;
+  nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Ver resultado →' : 'Siguiente →';
+}
+
+function computeScores(){
+  let x = 0, y = 0;
+  QUESTIONS.forEach((q, i) => {
+    const val = answers[i] * q.sign;
+    if (q.axis === 'X') x += val; else y += val;
+  });
+  return { x, y };
+}
+
+const QUADRANTS = {
+  Q1: {
+    name: "Darwinismo génico",
+    text: "Para vos, la selección natural es la fuerza que mejor explica el mundo vivo, y el gen es la unidad que realmente «compite» generación tras generación. Los organismos, incluso los grupos, son vehículos temporales. Es la tradición que popularizó la metáfora del gen egoísta: rigurosa, parsimoniosa y poco cómoda con las excepciones.",
+  },
+  Q2: {
+    name: "Darwinismo grupal",
+    text: "Creés que casi todo tiene una función adaptativa, pero no te conformás con mirar solo el gen: para vos la selección también moldea grupos, sociedades y especies enteras. Es la línea que sostiene que la cooperación y hasta ciertas instituciones sociales pudieron evolucionar porque benefician al colectivo, no solo al individuo.",
+  },
+  Q3: {
+    name: "Neutralismo molecular",
+    text: "Desconfiás del relato de que «todo tiene una función». A nivel genético, para vos manda más el azar —mutación, deriva, historia— que la selección. Pero seguís mirando al gen como la unidad relevante: no hace falta apelar al grupo para explicar la evolución, solo hace falta menos optimismo adaptativo.",
+  },
+  Q4: {
+    name: "Evo-Devo pluralista",
+    text: "Sos escéptico del adaptacionismo y pensás en múltiples niveles a la vez. Para vos el desarrollo embrionario, la contingencia histórica y la selección multinivel importan tanto como la selección clásica. Es la tradición que insiste en que no todo lo que existe fue «diseñado» por la selección para su función actual.",
+  },
+  C: {
+    name: "Posición equilibrada",
+    text: "Tu perfil no se inclina con fuerza hacia ningún polo: combinás intuiciones adaptacionistas y pluralistas, génicas y grupales, según el caso. Es una posición razonable — buena parte de la biología evolutiva contemporánea también vive en esa zona gris.",
+  }
+};
+
+function getQuadrant(x, y){
+  const tol = MAX_SCORE * 0.1;
+  if (Math.abs(x) <= tol && Math.abs(y) <= tol) return 'C';
+  if (y >= 0 && x >= 0) return 'Q1';
+  if (y >= 0 && x < 0)  return 'Q2';
+  if (y < 0 && x >= 0)  return 'Q3';
+  return 'Q4';
+}
+
+function showResults(){
+  screenQuiz.classList.add('hidden');
+  screenResults.classList.remove('hidden');
+
+  const { x, y } = computeScores();
+  const key = getQuadrant(x, y);
+  const q = QUADRANTS[key];
+
+  document.getElementById('quadrant-name').textContent = q.name;
+  document.getElementById('quadrant-text').textContent = q.text;
+
+  document.getElementById('readouts').innerHTML = `
+    <div><b>${y >= 0 ? '+' : ''}${y} / ${MAX_SCORE}</b>Adaptacionismo (${y>=0?'alto':'bajo, más pluralista'})</div>
+    <div><b>${x >= 0 ? '+' : ''}${x} / ${MAX_SCORE}</b>Nivel de selección (${x>=0?'génico / individual':'grupal / multinivel'})</div>
+  `;
+
+  const others = Object.keys(QUADRANTS).filter(k => k !== key && k !== 'C');
+  document.getElementById('other-quadrants').innerHTML =
+    'Otras ramas del mapa — ' + others.map(k => QUADRANTS[k].name).join(' · ');
+
+  drawCompass(x, y);
+}
+
+function drawCompass(x, y){
+  const svg = document.getElementById('compass-svg');
+  const cx = 280, cy = 280, r = 220;
+  const px = cx + (x / MAX_SCORE) * r;
+  const py = cy - (y / MAX_SCORE) * r;
+
+  const ink = '#20301F', gold = '#9C7A3C', leaf = '#3C6E44', fern='#6B8F58', leafDark='#2C5233';
+
+  svg.innerHTML = `
+    <defs>
+      <clipPath id="circleClip"><circle cx="${cx}" cy="${cy}" r="${r}"/></clipPath>
+    </defs>
+
+    <g clip-path="url(#circleClip)">
+      <rect x="${cx}" y="${cy-r}" width="${r}" height="${r}" fill="${leaf}" opacity="0.10"/>
+      <rect x="${cx-r}" y="${cy-r}" width="${r}" height="${r}" fill="${fern}" opacity="0.13"/>
+      <rect x="${cx}" y="${cy}" width="${r}" height="${r}" fill="${gold}" opacity="0.12"/>
+      <rect x="${cx-r}" y="${cy}" width="${r}" height="${r}" fill="${ink}" opacity="0.08"/>
+    </g>
+
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${gold}" stroke-width="1.2" opacity="0.6"/>
+    <circle cx="${cx}" cy="${cy}" r="${r*0.66}" fill="none" stroke="${gold}" stroke-width="1" opacity="0.35"/>
+    <circle cx="${cx}" cy="${cy}" r="${r*0.33}" fill="none" stroke="${gold}" stroke-width="1" opacity="0.28"/>
+
+    <line x1="${cx-r}" y1="${cy}" x2="${cx+r}" y2="${cy}" stroke="${ink}" stroke-width="1" opacity="0.45"/>
+    <line x1="${cx}" y1="${cy-r}" x2="${cx}" y2="${cy+r}" stroke="${ink}" stroke-width="1" opacity="0.45"/>
+
+    ${tick(cx,cy,r,'N')}${tick(cx,cy,r,'S')}${tick(cx,cy,r,'E')}${tick(cx,cy,r,'O')}
+    ${tick(cx,cy,r*0.85,'NE')}${tick(cx,cy,r*0.85,'NO')}${tick(cx,cy,r*0.85,'SE')}${tick(cx,cy,r*0.85,'SO')}
+
+    <text x="${cx}" y="${cy-r-16}" text-anchor="middle" font-family="IBM Plex Mono" font-size="11" fill="${leafDark}" letter-spacing="1">ADAPTACIONISMO</text>
+    <text x="${cx}" y="${cy+r+28}" text-anchor="middle" font-family="IBM Plex Mono" font-size="11" fill="${leafDark}" letter-spacing="1">PLURALISMO / AZAR</text>
+    <text x="${cx-r-14}" y="${cy+4}" text-anchor="end" font-family="IBM Plex Mono" font-size="9.5" fill="${gold}" letter-spacing="0.5">GRUPAL / MULTINIVEL</text>
+    <text x="${cx+r+14}" y="${cy+4}" text-anchor="start" font-family="IBM Plex Mono" font-size="9.5" fill="${gold}" letter-spacing="0.5">GÉNICO / INDIVIDUAL</text>
+
+    <text x="${cx-r*0.55}" y="${cy-r*0.58}" text-anchor="middle" font-family="Fraunces" font-size="11.5" fill="${ink}" opacity="0.6">Darwinismo grupal</text>
+    <text x="${cx+r*0.55}" y="${cy-r*0.58}" text-anchor="middle" font-family="Fraunces" font-size="11.5" fill="${ink}" opacity="0.6">Darwinismo génico</text>
+    <text x="${cx-r*0.55}" y="${cy+r*0.62}" text-anchor="middle" font-family="Fraunces" font-size="11.5" fill="${ink}" opacity="0.6">Evo-Devo pluralista</text>
+    <text x="${cx+r*0.55}" y="${cy+r*0.62}" text-anchor="middle" font-family="Fraunces" font-size="11.5" fill="${ink}" opacity="0.6">Neutralismo molecular</text>
+
+    <line x1="${px-11}" y1="${py}" x2="${px+11}" y2="${py}" stroke="${leafDark}" stroke-width="1.6"/>
+    <line x1="${px}" y1="${py-11}" x2="${px}" y2="${py+11}" stroke="${leafDark}" stroke-width="1.6"/>
+    <circle cx="${px}" cy="${py}" r="9" fill="${leaf}" opacity="0.2"/>
+    <circle cx="${px}" cy="${py}" r="6" fill="${leaf}" stroke="${ink}" stroke-width="1"/>
+  `;
+}
+
+function tick(cx, cy, r, dir){
+  const map = {
+    N:[cx, cy-r], S:[cx, cy+r], E:[cx+r, cy], O:[cx-r, cy],
+    NE:[cx+r*0.707, cy-r*0.707], NO:[cx-r*0.707, cy-r*0.707],
+    SE:[cx+r*0.707, cy+r*0.707], SO:[cx-r*0.707, cy+r*0.707]
+  };
+  const [x,y] = map[dir];
+  const size = (dir.length===1)? 2.6 : 1.8;
+  return `<circle cx="${x}" cy="${y}" r="${size}" fill="#9C7A3C"/>`;
+}
+</script>
+</body>
+</html>
+
