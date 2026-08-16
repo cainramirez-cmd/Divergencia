@@ -10,7 +10,7 @@ Abrí `index.html` directamente en el navegador, no necesita servidor.
 
 ## Deploy
 
-Pensado para desplegarse en [Vercel](https://vercel.com) como sitio estático: importar el repo, sin framework preset, sin build command.
+Pensado para desplegarse en [Vercel](https://divergencia-ten.vercel.app/) como sitio estático: importar el repo, sin framework preset, sin build command.
 
 ## Autoría
 
