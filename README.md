@@ -1,6 +1,6 @@
 # Divergencia — Compás del Pensamiento Evolutivo
 
-Test interactivo de 16 afirmaciones que ubica a quien responde en un mapa de dos ejes según su postura sobre selección natural, genes, grupos y azar.
+Test interactivo de 28 afirmaciones que ubica a quien responde en un mapa de dos ejes según su postura sobre selección natural, genes, grupos y azar.
 
 Sitio estático de un solo archivo (`index.html`), sin dependencias de build.
 
