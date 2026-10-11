@@ -14,7 +14,7 @@ Pensado para desplegarse en [Vercel](https://divergencia-ten.vercel.app/) como s
 
 ## Autoría
 
-Caín N. Ramirez — Desarrollo & diseño.
+Caín Ramirez-De Luca.
 
 ## Licencia
 
